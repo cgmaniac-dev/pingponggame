@@ -102,6 +102,22 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
 
   @Override
   public void render() {
+    System.out.println("Check point 1");
+    Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
+
+    // Clear screen
+    g.setColor(Color.BLACK);
+    g.fillRect(0, 0, WIDTH, HEIGHT);
+
+    // Draw Centre line 
+    g.setColor(Color.WHITE);
+    g.setStroke(new BasicStroke(2));
+
+    for (int i = 0; i < HEIGHT; i+=20){
+      g.drawLine(WIDTH/2, i, WIDTH/2, i+10);
+    }
+    g.dispose();
+    bufferStrategy.show();
   }
 
   @Override
