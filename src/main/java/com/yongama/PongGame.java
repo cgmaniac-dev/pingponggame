@@ -102,7 +102,6 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
 
   @Override
   public void render() {
-    System.out.println("Check point 1");
     Graphics2D g = (Graphics2D) bufferStrategy.getDrawGraphics();
 
     // Clear screen
@@ -116,6 +115,11 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     for (int i = 0; i < HEIGHT; i+=20){
       g.drawLine(WIDTH/2, i, WIDTH/2, i+10);
     }
+
+    // Draw paddles
+    g.fillRect(10, player1Y, PADDLE_WIDTH, HEIGHT);
+    g.fillRect(WIDTH - PADDLE_WIDTH - 10, player2Y, PADDLE_WIDTH, HEIGHT);
+
     g.dispose();
     bufferStrategy.show();
   }
