@@ -120,6 +120,14 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     g.fillRect(10, player1Y, PADDLE_WIDTH, HEIGHT);
     g.fillRect(WIDTH - PADDLE_WIDTH - 10, player2Y, PADDLE_WIDTH, HEIGHT);
 
+    // Draw ball 
+    g.fillOval(ballX, ballY, BALL_SIZE, BALL_SIZE);
+
+    // Draw scores
+    g.setFont(new Font("Arial", Font.BOLD, 36));
+    g.drawString(String.valueOf(player1Score), WIDTH/4, 50);
+    g.drawString(String.valueOf(player2Score),3 * WIDTH/4, 50);
+
     g.dispose();
     bufferStrategy.show();
   }
