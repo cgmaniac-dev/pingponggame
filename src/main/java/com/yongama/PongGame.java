@@ -9,6 +9,7 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
   private static final int HEIGHT = 600;
   private static final int PADDLE_WIDTH = 15;
   private static final int PADDLE_HEIGHT = 100;
+  private static final int PADDLE_SPEED = 8;
   private static final int BALL_SIZE = 20;
   private static final int BALL_SPEED = 5;
 
@@ -117,8 +118,8 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     }
 
     // Draw paddles
-    g.fillRect(10, player1Y, PADDLE_WIDTH, HEIGHT);
-    g.fillRect(WIDTH - PADDLE_WIDTH - 10, player2Y, PADDLE_WIDTH, HEIGHT);
+    g.fillRect(10, player1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
+    g.fillRect(WIDTH - PADDLE_WIDTH - 10, player2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
     // Draw ball 
     g.fillOval(ballX, ballY, BALL_SIZE, BALL_SIZE);
@@ -140,6 +141,22 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
 
   @Override
   public void update() {
+    // Update player paddles
+    if (upPressed && player2Y > 0){
+      player2Y -= PADDLE_SPEED;
+    }
+
+    if (downPressed && player2Y < HEIGHT - PADDLE_HEIGHT){
+      player2Y += PADDLE_SPEED;
+    }
+
+    if (wPressed && player1Y > 0){
+      player1Y -= PADDLE_SPEED;
+    }
+
+    if (sPressed && player1Y < HEIGHT - PADDLE_HEIGHT){
+      player1Y += PADDLE_SPEED;
+    }
   }
 
 }
