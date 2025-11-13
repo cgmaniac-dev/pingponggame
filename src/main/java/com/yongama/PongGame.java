@@ -181,6 +181,27 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
       int hitPosition = (ballY + BALL_SIZE / 2) - (player2Y + PADDLE_HEIGHT / 2);
       ballVelY += hitPosition / 10;
     }
+
+    // Scoring
+    if (ballX < 0) {
+      player2Score++;
+      resetBall();
+    } else if (ballX > WIDTH) {
+      player1Score++;
+      resetBall();
+    }
+
+    // Limit ball speed
+    if (Math.abs(ballVelY) > 8) {
+      ballVelY = ballVelY > 0 ? 8 : -8;
+    }
+  }
+
+  private void resetBall() {
+    ballX = WIDTH / 2 - BALL_SIZE / 2;
+    ballY = HEIGHT / 2 - BALL_SIZE / 2;
+    ballVelX = Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED;
+    ballVelY = (Math.random() > 0.5 ? 1 : -1) * (int) (Math.random() * 3 + 2);
   }
 
 }
