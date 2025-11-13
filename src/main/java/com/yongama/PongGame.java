@@ -157,6 +157,15 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     if (sPressed && player1Y < HEIGHT - PADDLE_HEIGHT){
       player1Y += PADDLE_SPEED;
     }
+
+    // Update ball position
+    ballX += ballVelX;
+    ballY += ballVelY;
+
+    // ball collision with top and bottom walls
+    if (ballY <= 0 || ballY >= HEIGHT - BALL_SIZE){
+      ballVelY = -ballVelY;
+    }
   }
 
 }
