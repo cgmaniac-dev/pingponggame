@@ -76,6 +76,28 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
   }
 
   private void setupInput() {
+    canvas.addKeyListener(new KeyAdapter() {
+      @Override
+      public void keyPressed(KeyEvent e){
+        switch (e.getKeyCode()){
+          case KeyEvent.VK_UP -> upPressed = true;
+          case KeyEvent.VK_DOWN -> downPressed = true;
+          case KeyEvent.VK_W -> wPressed = true;
+          case KeyEvent.VK_S -> sPressed = true;
+          case KeyEvent.VK_ESCAPE -> stopGame();
+        }
+      }
+
+      @Override
+      public void keyReleased(KeyEvent e){
+          switch (e.getKeyCode()){
+          case KeyEvent.VK_UP -> upPressed = false;
+          case KeyEvent.VK_DOWN -> downPressed = false;
+          case KeyEvent.VK_W -> wPressed = false;
+          case KeyEvent.VK_S -> sPressed = false;
+        }
+      }
+    });
   }
 
   @Override
