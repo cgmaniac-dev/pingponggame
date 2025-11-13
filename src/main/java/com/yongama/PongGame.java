@@ -55,6 +55,8 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     });
 
   }
+  
+  
 
   private void stopGame() {
     System.exit(0);
@@ -67,6 +69,10 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
   }
 
   private void initialiseGame() {
+    player1Y = HEIGHT/2 - PADDLE_HEIGHT/2;
+    player2Y = HEIGHT/2 - PADDLE_HEIGHT/2;
+    ballVelX = Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED;
+    ballVelY = (Math.random() > 0.5 ? 1: -1) * (int)(Math.random() * 3 + 2);
   }
 
   private void setupInput() {
