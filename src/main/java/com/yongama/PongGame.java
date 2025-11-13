@@ -130,8 +130,8 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
 
     // Draw controls help
     g.setFont(new Font("Arial",Font.BOLD, 14));
-    g.drawString("Player 1: W/S keys", 20, HEIGHT - 30);
-    g.drawString("Player 2: Up/Down arrows", WIDTH - 150, HEIGHT - 30);
+    g.drawString("Player 1: W/S keys", 40, HEIGHT - 30);
+    g.drawString("Player 2: Up/Down arrows", WIDTH - 220, HEIGHT - 30);
     g.drawString("ESC: Exit", WIDTH/2 - 30, HEIGHT - 30);
 
     g.dispose();
