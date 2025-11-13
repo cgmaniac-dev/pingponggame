@@ -56,31 +56,29 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     });
 
   }
-  
-  
 
   private void stopGame() {
     System.exit(0);
   }
 
-  public static void main(String[] args){
+  public static void main(String[] args) {
     PongGame pongGame = new PongGame();
     GameLoop gameLoop = new GameLoop(pongGame, pongGame);
     gameLoop.start();
   }
 
   private void initialiseGame() {
-    player1Y = HEIGHT/2 - PADDLE_HEIGHT/2;
-    player2Y = HEIGHT/2 - PADDLE_HEIGHT/2;
+    player1Y = HEIGHT / 2 - PADDLE_HEIGHT / 2;
+    player2Y = HEIGHT / 2 - PADDLE_HEIGHT / 2;
     ballVelX = Math.random() > 0.5 ? BALL_SPEED : -BALL_SPEED;
-    ballVelY = (Math.random() > 0.5 ? 1: -1) * (int)(Math.random() * 3 + 2);
+    ballVelY = (Math.random() > 0.5 ? 1 : -1) * (int) (Math.random() * 3 + 2);
   }
 
   private void setupInput() {
     canvas.addKeyListener(new KeyAdapter() {
       @Override
-      public void keyPressed(KeyEvent e){
-        switch (e.getKeyCode()){
+      public void keyPressed(KeyEvent e) {
+        switch (e.getKeyCode()) {
           case KeyEvent.VK_UP -> upPressed = true;
           case KeyEvent.VK_DOWN -> downPressed = true;
           case KeyEvent.VK_W -> wPressed = true;
@@ -90,8 +88,8 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
       }
 
       @Override
-      public void keyReleased(KeyEvent e){
-          switch (e.getKeyCode()){
+      public void keyReleased(KeyEvent e) {
+        switch (e.getKeyCode()) {
           case KeyEvent.VK_UP -> upPressed = false;
           case KeyEvent.VK_DOWN -> downPressed = false;
           case KeyEvent.VK_W -> wPressed = false;
@@ -109,31 +107,31 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     g.setColor(Color.BLACK);
     g.fillRect(0, 0, WIDTH, HEIGHT);
 
-    // Draw Centre line 
+    // Draw Centre line
     g.setColor(Color.WHITE);
     g.setStroke(new BasicStroke(2));
 
-    for (int i = 0; i < HEIGHT; i+=20){
-      g.drawLine(WIDTH/2, i, WIDTH/2, i+10);
+    for (int i = 0; i < HEIGHT; i += 20) {
+      g.drawLine(WIDTH / 2, i, WIDTH / 2, i + 10);
     }
 
     // Draw paddles
     g.fillRect(10, player1Y, PADDLE_WIDTH, PADDLE_HEIGHT);
     g.fillRect(WIDTH - PADDLE_WIDTH - 10, player2Y, PADDLE_WIDTH, PADDLE_HEIGHT);
 
-    // Draw ball 
+    // Draw ball
     g.fillOval(ballX, ballY, BALL_SIZE, BALL_SIZE);
 
     // Draw scores
     g.setFont(new Font("Arial", Font.BOLD, 36));
-    g.drawString(String.valueOf(player1Score), WIDTH/4, 50);
-    g.drawString(String.valueOf(player2Score),3 * WIDTH/4, 50);
+    g.drawString(String.valueOf(player1Score), WIDTH / 4, 50);
+    g.drawString(String.valueOf(player2Score), 3 * WIDTH / 4, 50);
 
     // Draw controls help
-    g.setFont(new Font("Arial",Font.BOLD, 14));
+    g.setFont(new Font("Arial", Font.BOLD, 14));
     g.drawString("Player 1: W/S keys", 40, HEIGHT - 30);
     g.drawString("Player 2: Up/Down arrows", WIDTH - 220, HEIGHT - 30);
-    g.drawString("ESC: Exit", WIDTH/2 - 30, HEIGHT - 30);
+    g.drawString("ESC: Exit", WIDTH / 2 - 30, HEIGHT - 30);
 
     g.dispose();
     bufferStrategy.show();
@@ -142,19 +140,19 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
   @Override
   public void update() {
     // Update player paddles
-    if (upPressed && player2Y > 0){
+    if (upPressed && player2Y > 0) {
       player2Y -= PADDLE_SPEED;
     }
 
-    if (downPressed && player2Y < HEIGHT - PADDLE_HEIGHT){
+    if (downPressed && player2Y < HEIGHT - PADDLE_HEIGHT) {
       player2Y += PADDLE_SPEED;
     }
 
-    if (wPressed && player1Y > 0){
+    if (wPressed && player1Y > 0) {
       player1Y -= PADDLE_SPEED;
     }
 
-    if (sPressed && player1Y < HEIGHT - PADDLE_HEIGHT){
+    if (sPressed && player1Y < HEIGHT - PADDLE_HEIGHT) {
       player1Y += PADDLE_SPEED;
     }
 
@@ -163,8 +161,25 @@ public class PongGame implements GameLoop.GameLogic, GameLoop.Display {
     ballY += ballVelY;
 
     // ball collision with top and bottom walls
-    if (ballY <= 0 || ballY >= HEIGHT - BALL_SIZE){
+    if (ballY <= 0 || ballY >= HEIGHT - BALL_SIZE) {
       ballVelY = -ballVelY;
+    }
+
+    // Ball collision with paddles
+    if (ballX <= PADDLE_WIDTH &&
+        ballY + BALL_SIZE >= player1Y &&
+        ballY <= player1Y + PADDLE_HEIGHT) {
+      ballVelX = Math.abs(ballVelX);
+      int hitPosition = (ballY + BALL_SIZE / 2) - (player1Y + PADDLE_HEIGHT / 2);
+      ballVelY += hitPosition / 10;
+    }
+
+    if (ballX >= WIDTH - PADDLE_WIDTH - BALL_SIZE &&
+        ballY + BALL_SIZE >= player2Y &&
+        ballY <= player2Y + PADDLE_HEIGHT) {
+      ballVelX = -Math.abs(ballVelX);
+      int hitPosition = (ballY + BALL_SIZE / 2) - (player2Y + PADDLE_HEIGHT / 2);
+      ballVelY += hitPosition / 10;
     }
   }
 
